@@ -16,25 +16,36 @@
 int main(void)
 {
     // setup logic
+    Text_Label tl00;
+    Text_Label tl01 {
+        { 200,0 },
+        30,
+        MAROON,
+        "This is a text!!",
+        10,
+        SKYBLUE,
+        5,
+    };
+    Text_Input ti00;
+
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
 
     // create labels after initializing window so that rtext module is loaded.
-    Text_Label label01 = Text_Label();
-    Text_Label label02 = Text_Label(Vector2{ 100,100 }, 50, MAROON,
-            "Hello, world", 10, LIME, 30, DARKBROWN);
-    Text_Label label03 = Text_Label(Vector2{ 100,300 }, 30, DARKBLUE,
-            "It works!", 10, SKYBLUE, 10, DARKBLUE);
+    create(tl00);
+    create(tl01);
+    create(ti00);
 
     while (!WindowShouldClose()) {
         // update logic
+        update(ti00);
 
         BeginDrawing();
-            ClearBackground(RAYWHITE);
+            ClearBackground(SCREEN_BG_COLOR);
             // graphics
-            label01.draw();
-            label02.draw();
-            label03.draw();
+            //draw(tl00);
+            draw(tl01);
+            draw(ti00);
         EndDrawing();
     }
 
