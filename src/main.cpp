@@ -27,6 +27,11 @@ int main(void)
         5,
     };
     Text_Input ti00;
+    Text_Input ti01 {
+        { 50,300 },
+        40,
+        "help"
+    };
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
@@ -35,10 +40,12 @@ int main(void)
     create(tl00);
     create(tl01);
     create(ti00);
+    create(ti01);
 
     while (!WindowShouldClose()) {
         // update logic
         update(ti00);
+        update(ti01);
 
         BeginDrawing();
             ClearBackground(SCREEN_BG_COLOR);
@@ -46,6 +53,7 @@ int main(void)
             //draw(tl00);
             draw(tl01);
             draw(ti00);
+            draw(ti01);
         EndDrawing();
     }
 

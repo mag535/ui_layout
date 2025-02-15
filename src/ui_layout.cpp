@@ -208,6 +208,19 @@ void draw(Text_Input& TI)
             );
         }
     }
+    // draw char counter
+    string limit_display = to_string(TI.text.length()) + "/" + to_string(TI._char_limit);
+    int _font_size = 10;
+    if (TI.font_size/2 > _font_size)
+        _font_size = TI.font_size/2;
+    Vector2 limit_size = MeasureTextEx(GetFontDefault(),
+            limit_display.c_str(),
+            (float)_font_size,
+            (float)_font_size/10
+    );
+    int pos_x = TI.position.x + TI.text_size.x + (2 * (TI.padding + TI.border_width)) - limit_size.x;
+    int pos_y = TI.position.y + TI.text_size.y + (2 * (TI.padding + TI.border_width)) + 5;
+    DrawText(limit_display.c_str(), pos_x, pos_y, _font_size, TI.font_color);
 }
 
 
