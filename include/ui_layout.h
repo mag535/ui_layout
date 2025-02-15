@@ -4,6 +4,7 @@
 #include <string>
 
 #define SCREEN_BG_COLOR RAYWHITE
+#define DISABLED_COLOR (Color){ 150,150,150,130 }
 
 
 using namespace std;
@@ -17,7 +18,8 @@ enum interactive_state {
     NORMAL,
     HOVER,
     RESPONSIVE,
-    ACTIVE
+    ACTIVE,
+    DISABLED
 };
 
 
@@ -55,6 +57,8 @@ struct Text_Input
     int frames_counter = 0;
     int cursor_position = 0;
     Color current_color = DARKBLUE;
+    
+    Color _og_font_color = font_color;
 };
 
 void create(Text_Input& TI);

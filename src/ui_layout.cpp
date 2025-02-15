@@ -132,18 +132,27 @@ void on_interaction(Text_Input& TI)
     case NORMAL: {
         cout << "NORMAL" << endl;
         TI.current_color = TI.border_color;
+        TI.font_color = TI._og_font_color;
         break; }
     case HOVER: {
         cout << "HOVER" << endl;
         TI.current_color = brighten_and_shift(TI.border_color);
+        TI.font_color = TI._og_font_color;
         break; }
     case RESPONSIVE: {
         cout << "RESPONSIVE" << endl;
         TI.current_color = invert_color(TI.border_color);
+        TI.font_color = TI._og_font_color;
         break; }
     case ACTIVE: {
         cout << "ACTIVE" << endl;
         TI.current_color = brighten_and_shift(TI.border_color);
+        TI.font_color = TI._og_font_color;
+        break; }
+    case DISABLED: {
+        cout << "DISABLED" << endl;
+        TI.current_color = DISABLED_COLOR;
+        TI.font_color = DISABLED_COLOR;
         break; }
     default: {
         break; }
@@ -152,6 +161,9 @@ void on_interaction(Text_Input& TI)
 
 void update(Text_Input& TI)
 {
+    if (TI.state == DISABLED)
+        goto on_disabled_exit;
+
     if (CheckCollisionPointRec(GetMousePosition(), get_rectangle(TI))) {
         if (TI.state != ACTIVE && IsMouseButtonDown(MOUSE_BUTTON_LEFT))
             TI.state = RESPONSIVE;
@@ -172,6 +184,8 @@ void update(Text_Input& TI)
     } else {
         TI.frames_counter = 0;
     }
+
+on_disabled_exit:
     on_interaction(TI);
 }
 

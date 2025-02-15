@@ -41,6 +41,7 @@ int main(void)
     create(tl01);
     create(ti00);
     create(ti01);
+    ti01.state = DISABLED;
 
     while (!WindowShouldClose()) {
         // update logic
