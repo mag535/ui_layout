@@ -32,6 +32,11 @@ int main(void)
         40,
         "help"
     };
+    Text_Input ti02 {
+        .position = { 50,400 },
+        .font_size = 30,
+        .numerical_only = true,
+    };
 
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(60);
@@ -42,11 +47,13 @@ int main(void)
     create(ti00);
     create(ti01);
     ti01.state = DISABLED;
+    create(ti02);
 
     while (!WindowShouldClose()) {
         // update logic
         update(ti00);
         update(ti01);
+        update(ti02);
 
         BeginDrawing();
             ClearBackground(SCREEN_BG_COLOR);
@@ -55,6 +62,7 @@ int main(void)
             draw(tl01);
             draw(ti00);
             draw(ti01);
+            draw(ti02);
         EndDrawing();
     }
 

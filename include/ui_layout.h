@@ -59,6 +59,7 @@ struct Text_Input
     Color current_color = DARKBLUE;
     
     Color _og_font_color = font_color;
+    bool numerical_only = false;
 };
 
 void create(Text_Input& TI);

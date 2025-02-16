@@ -78,7 +78,11 @@ void read_user_input(Text_Input& TI)
 {
     char c = GetCharPressed();
     while (c > 0) {
-        if ((c >= 32) && (c <= 125) && (TI.text.length() < TI._char_limit))
+        if (TI.numerical_only && (TI.text.length() < TI._char_limit) &&
+                (c >= 48) && (c <= 57))
+            TI.text.append(1, c);
+        else if (!TI.numerical_only && (TI.text.length() < TI._char_limit) &&
+                (c >= 32) && (c <= 125))
             TI.text.append(1, c);
         c = GetCharPressed();
     }
@@ -130,27 +134,22 @@ void on_interaction(Text_Input& TI)
 {
     switch (TI.state) {
     case NORMAL: {
-        cout << "NORMAL" << endl;
         TI.current_color = TI.border_color;
         TI.font_color = TI._og_font_color;
         break; }
     case HOVER: {
-        cout << "HOVER" << endl;
         TI.current_color = brighten_and_shift(TI.border_color);
         TI.font_color = TI._og_font_color;
         break; }
     case RESPONSIVE: {
-        cout << "RESPONSIVE" << endl;
         TI.current_color = invert_color(TI.border_color);
         TI.font_color = TI._og_font_color;
         break; }
     case ACTIVE: {
-        cout << "ACTIVE" << endl;
         TI.current_color = brighten_and_shift(TI.border_color);
         TI.font_color = TI._og_font_color;
         break; }
     case DISABLED: {
-        cout << "DISABLED" << endl;
         TI.current_color = DISABLED_COLOR;
         TI.font_color = DISABLED_COLOR;
         break; }
