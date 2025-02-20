@@ -2,6 +2,7 @@
 
 #include "raylib.h"
 #include <string>
+#include <vector>
 
 #define SCREEN_BG_COLOR RAYWHITE
 #define DISABLED_COLOR (Color){ 150,150,150,130 }
@@ -69,3 +70,26 @@ Color invert_color(const Color col);
 void on_interaction(Text_Input& TI);
 void update(Text_Input& TI);
 void draw(Text_Input& TI);
+
+
+struct Button_Toggle
+{
+    Vector2 position { 0,0 };
+    int font_size = 20;
+    string text = "O";
+    Color font_color = DARKBLUE;
+    int padding = 10;
+    Color bg_color = SKYBLUE;
+    int border_width = 5;
+    Color border_color = DARKBLUE;
+    Vector2 text_size { 0,0 };
+    enum interactive_state state = NORMAL;
+
+    vector<Color> current_colors { border_color, font_color, bg_color };
+    bool value = false;
+};
+
+void create(Button_Toggle& BT);
+void on_interaction(Button_Toggle& BT);
+void update(Button_Toggle& BT);
+void draw(Button_Toggle& BT);

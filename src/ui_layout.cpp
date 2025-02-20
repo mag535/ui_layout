@@ -30,6 +30,17 @@ Rectangle get_rectangle<Text_Input>(Text_Input& UIE)
     };
 }
 
+template<>
+Rectangle get_rectangle<Button_Toggle>(Button_Toggle& UIE)
+{
+    return (Rectangle){
+            UIE.position.x,
+            UIE.position.y,
+            UIE.text_size.x + (2* (UIE.padding + UIE.border_width)),
+            UIE.text_size.y + (2* (UIE.padding + UIE.border_width))
+    };
+}
+
 
 /********** TEXT LABEL ********************************************************/
 void create(Text_Label& TL)
@@ -126,7 +137,7 @@ Color invert_color(const Color col)
                 255 - col.r,
                 255 - col.g,
                 255 - col.b,
-                255
+                col.a
     );
 }
 
@@ -234,4 +245,98 @@ void draw(Text_Input& TI)
     int pos_x = TI.position.x + TI.text_size.x + (2 * (TI.padding + TI.border_width)) - limit_size.x;
     int pos_y = TI.position.y + TI.text_size.y + (2 * (TI.padding + TI.border_width)) + 5;
     DrawText(limit_display.c_str(), pos_x, pos_y, _font_size, TI.font_color);
+}
+
+
+/********** BUTTON SWITCH ********************************************************/
+void create(Button_Toggle& BT)
+{
+    BT.text_size = MeasureTextEx(GetFontDefault(), "O",
+            (float)BT.font_size, (float)(BT.font_size/10));
+    cout << "a switch button was made!" << endl;
+}
+
+void on_interaction(Button_Toggle& BT)
+{
+    switch (BT.state) {
+    case NORMAL: {
+        BT.current_colors[0] = invert_color(BT.border_color);
+        BT.current_colors[1] = invert_color(BT.font_color);
+        BT.current_colors[2] = invert_color(BT.bg_color);
+        break; }
+    case HOVER: {
+        BT.current_colors[0] = brighten_and_shift(BT.border_color);
+        BT.current_colors[1] = brighten_and_shift(BT.font_color);
+        BT.current_colors[2] = brighten_and_shift(BT.bg_color);
+        break; }
+    case RESPONSIVE: {
+        break; }
+    case ACTIVE: {
+        BT.current_colors = { BT.border_color, BT.font_color, BT.bg_color };
+        break; }
+    case DISABLED: {
+        BT.current_colors[0] = DISABLED_COLOR;
+        BT.current_colors[1] = DISABLED_COLOR;
+        BT.current_colors[2] = BLANK;
+        break; }
+    default: {
+        break; }
+    }
+}
+
+void update(Button_Toggle& BT)
+{
+    if (BT.state == DISABLED)
+        goto on_disabled_exit_bt;
+
+    if (CheckCollisionPointRec(GetMousePosition(), get_rectangle(BT))) {
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+            if (BT.value) {
+                BT.state = NORMAL;
+                BT.value = false;
+                BT.text = "O";
+            } else {
+                BT.state = ACTIVE;
+                BT.value = true;
+                BT.text = "I";
+            }
+        } else if (IsMouseButtonUp(MOUSE_BUTTON_LEFT)) {
+            BT.state = HOVER;
+        }
+    } else {
+        if (BT.value)
+            BT.state = ACTIVE;
+        else
+            BT.state = NORMAL;
+    }
+
+on_disabled_exit_bt:
+    on_interaction(BT);
+}
+
+void draw(Button_Toggle& BT)
+{
+    // draw border
+    if (BT.border_width != 0) {
+        Vector2 size = Vector2{ 
+                (float)(2*(BT.border_width + BT.padding) + BT.text_size.x),
+                (float)(2*(BT.border_width + BT.padding) + BT.text_size.y) };
+        DrawRectangleV(BT.position, size, BT.current_colors[0]);
+    }
+    // draw bg
+    Vector2 pos = Vector2{ (float)(BT.position.x + BT.border_width),
+            (float)(BT.position.y + BT.border_width) };
+    Vector2 size = Vector2{ (float)(2*BT.padding + BT.text_size.x),
+            (float)(2*BT.padding + BT.text_size.y) };
+    if (BT.current_colors[2].a == 0)
+        DrawRectangleV(pos, size, SCREEN_BG_COLOR);
+    else
+        DrawRectangleV(pos, size, BT.current_colors[2]);
+    // draw text
+    
+    int pos_x = (int)BT.position.x + BT.border_width + BT.padding +
+            (BT.text_size.x - MeasureTextEx(GetFontDefault(), BT.text.c_str(),
+            (float)BT.font_size, (float)(BT.font_size/10)).x)/2;
+    int pos_y = (int)BT.position.y + BT.border_width + BT.padding;
+    DrawText(BT.text.c_str(), pos_x, pos_y, BT.font_size, BT.current_colors[1]);
 }
