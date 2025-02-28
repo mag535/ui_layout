@@ -1,6 +1,6 @@
 #include <iostream>
 #include "raylib.h"
-#include "ui_layout.h"
+#include "../include/ui_layout.h"
 
 #define SCREEN_WIDTH 600
 #define SCREEN_HEIGHT 600
