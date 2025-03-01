@@ -11,34 +11,37 @@ using namespace std;
 template<>
 Rectangle get_rectangle<Text_Label>(Text_Label& UIE)
 {
-    return (Rectangle){
+    Rectangle rec {
             UIE.position.x,
             UIE.position.y,
             UIE.text_size.x + (2* (UIE.padding + UIE.border_width)),
             UIE.text_size.y + (2* (UIE.padding + UIE.border_width))
     };
+    return rec;
 }
 
 template<>
 Rectangle get_rectangle<Text_Input>(Text_Input& UIE)
 {
-    return (Rectangle){
+    Rectangle rec {
             UIE.position.x,
             UIE.position.y,
             UIE.text_size.x + (2* (UIE.padding + UIE.border_width)),
             UIE.text_size.y + (2* (UIE.padding + UIE.border_width))
     };
+    return rec;
 }
 
 template<>
 Rectangle get_rectangle<Button_Toggle>(Button_Toggle& UIE)
 {
-    return (Rectangle){
+    Rectangle rec {
             UIE.position.x,
             UIE.position.y,
             UIE.text_size.x + (2* (UIE.padding + UIE.border_width)),
             UIE.text_size.y + (2* (UIE.padding + UIE.border_width))
     };
+    return rec;
 }
 
 
@@ -54,15 +57,15 @@ void draw(Text_Label& TL)
 {
     // draw border
     if (TL.border_width != 0) {
-        Vector2 size = Vector2{ 
+        Vector2 size { 
                 (float)(2*(TL.border_width + TL.padding) + TL.text_size.x),
                 (float)(2*(TL.border_width + TL.padding) + TL.text_size.y) };
         DrawRectangleV(TL.position, size, TL.border_color);
     }
     // draw bg
-    Vector2 pos = Vector2{ (float)(TL.position.x + TL.border_width),
+    Vector2 pos { (float)(TL.position.x + TL.border_width),
             (float)(TL.position.y + TL.border_width) };
-    Vector2 size = Vector2{ (float)(2*TL.padding + TL.text_size.x),
+    Vector2 size { (float)(2*TL.padding + TL.text_size.x),
             (float)(2*TL.padding + TL.text_size.y) };
     if (TL.bg_color.a == 0)
         DrawRectangleV(pos, size, SCREEN_BG_COLOR);
@@ -203,15 +206,15 @@ void draw(Text_Input& TI)
 {
     // draw border
     if (TI.border_width != 0) {
-        Vector2 size = Vector2{ 
+        Vector2 size { 
                 (float)(2*(TI.border_width + TI.padding) + TI.text_size.x),
                 (float)(2*(TI.border_width + TI.padding) + TI.text_size.y) };
         DrawRectangleV(TI.position, size, TI.current_color);
     }
     // draw bg
-    Vector2 pos = Vector2{ (float)(TI.position.x + TI.border_width),
+    Vector2 pos { (float)(TI.position.x + TI.border_width),
             (float)(TI.position.y + TI.border_width) };
-    Vector2 size = Vector2{ (float)(2*TI.padding + TI.text_size.x),
+    Vector2 size { (float)(2*TI.padding + TI.text_size.x),
             (float)(2*TI.padding + TI.text_size.y) };
     if (TI.bg_color.a == 0)
         DrawRectangleV(pos, size, SCREEN_BG_COLOR);
@@ -318,15 +321,15 @@ void draw(Button_Toggle& BT)
 {
     // draw border
     if (BT.border_width != 0) {
-        Vector2 size = Vector2{ 
+        Vector2 size { 
                 (float)(2*(BT.border_width + BT.padding) + BT.text_size.x),
                 (float)(2*(BT.border_width + BT.padding) + BT.text_size.y) };
         DrawRectangleV(BT.position, size, BT.current_colors[0]);
     }
     // draw bg
-    Vector2 pos = Vector2{ (float)(BT.position.x + BT.border_width),
+    Vector2 pos { (float)(BT.position.x + BT.border_width),
             (float)(BT.position.y + BT.border_width) };
-    Vector2 size = Vector2{ (float)(2*BT.padding + BT.text_size.x),
+    Vector2 size { (float)(2*BT.padding + BT.text_size.x),
             (float)(2*BT.padding + BT.text_size.y) };
     if (BT.current_colors[2].a == 0)
         DrawRectangleV(pos, size, SCREEN_BG_COLOR);

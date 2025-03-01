@@ -6,13 +6,13 @@ ARC="-A ${2}" # architecture
 
 if [ -z $1 ] # if $1 is empty, make GEN empty so CMake uses default generator
 then
-    echo "First parameter is empty"
+    echo "No generator specified, using cmake default"
     GEN=""
 fi
 
 if [ -z $2 ] # if $2 is empty, make ARC empty so CMake uses default architecture
 then
-    echo "Second parameter is empty"
+    echo "No architecture specified, using cmake default"
     ARC=""
 fi
 
