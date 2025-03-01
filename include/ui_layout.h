@@ -5,7 +5,7 @@
 #include <vector>
 
 #define SCREEN_BG_COLOR RAYWHITE
-#define DISABLED_COLOR (Color){ 150,150,150,130 }
+#define DISABLED_COLOR Color{ 150,150,150,130 }
 
 
 using namespace std;

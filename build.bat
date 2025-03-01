@@ -12,10 +12,10 @@ if [%1%]==[] (
 
 if [%2%]==[] (
     ECHO No architecture specified, using cmake default
-    SET gen=
+    SET arc=
 )
 
-:: Use build system
+:: Generate project
 cmake -S . -B build %gen% %arc% -DCMAKE_BUILD_TYPE=Debug
 :: Compile executable
-::cmake --build build
+cmake --build build
